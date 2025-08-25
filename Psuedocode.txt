@@ -1,0 +1,66 @@
+FUNCTION main:
+    PRINT "Enter number of nodes in level order (including -1 for null):"
+    READ n
+    CREATE list vals of size n
+    PRINT "Enter values in level order (-1 for null):"
+    FOR i = 0 TO n-1:
+        READ vals[i]
+
+    root = buildTreeFromLevelOrder(vals)
+
+    result = morrisInorder(root)
+
+    PRINT "Inorder Traversal using Morris Traversal:"
+    FOR each value in result:
+        PRINT value
+
+
+FUNCTION buildTreeFromLevelOrder(vals):
+    IF vals is empty OR vals[0] == -1:
+        RETURN NULL
+
+    CREATE root node with value vals[0]
+    CREATE an empty queue
+    ENQUEUE root
+    SET i = 1
+
+    WHILE queue is not empty AND i < length(vals):
+        current = DEQUEUE
+
+        IF i < length(vals) AND vals[i] != -1:
+            CREATE leftNode with value vals[i]
+            current.left = leftNode
+            ENQUEUE leftNode
+        i = i + 1
+
+        IF i < length(vals) AND vals[i] != -1:
+            CREATE rightNode with value vals[i]
+            current.right = rightNode
+            ENQUEUE rightNode
+        i = i + 1
+
+    RETURN root
+
+
+FUNCTION morrisInorder(root):
+    CREATE empty list result
+    SET current = root
+
+    WHILE current is not NULL:
+        IF current.left is NULL:
+            APPEND current.data to result
+            current = current.right
+        ELSE:
+            predecessor = current.left
+            WHILE predecessor.right is not NULL AND predecessor.right != current:
+                predecessor = predecessor.right
+
+            IF predecessor.right is NULL:
+                predecessor.right = current
+                current = current.left
+            ELSE:
+                predecessor.right = NULL
+                APPEND current.data to result
+                current = current.right
+
+    RETURN result

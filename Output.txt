@@ -1,0 +1,14 @@
+INPUT:
+Enter number of nodes in level order (including -1 for null): 9
+Enter values in level order (-1 for null):
+10
+5
+15
+2
+7
+12
+20
+-1
+-1
+OUTPUT:
+Inorder Traversal using Morris Traversal: 2 5 7 10 12 15 20 
